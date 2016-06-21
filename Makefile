@@ -1,9 +1,9 @@
 All : server client
 
-server : server.o serversocket.o
-	gcc -o s server.o serversocket.o -lncurses -lpthread
+server : server.o serversocket.o mydb.o
+	gcc -o s server.o serversocket.o mydb.o -lncurses -lpthread -lmysqlclient
 
-ssrver.o : server.c serversocket.h
+server.o : server.c serversocket.h
 	gcc -c server.c 
 
 serversocket : serversocket.c serversocket.h
@@ -14,6 +14,12 @@ client : client.o clientsocket.o
 
 client.o : client.c clientsocket.h
 	gcc -c client.c 
+
+clientsocket : clientsocket.c clientsocket.h
+	gcc -c clientsocket.c
+
+mydb.o : mydb.c mydb.h
+	gcc -c mydb.c
 
 clean : 
 	rm -rf s c *.o

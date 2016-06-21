@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  clientsocket.h
+ *       Filename:  mydb.h
  *
  *    Description:  
  *
  *        Version:  1.0
- *        Created:  2016년 06월 17일 16시 50분 47초
+ *        Created:  2016년 06월 21일 11시 39분 47초
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -16,10 +16,11 @@
  * =====================================================================================
  */
 
-#ifndef CLIENTSOCKET_H
-#define CLIENTSOCKET_H
+#ifdef MYDB_H
+#define MYDB_H
 
-int init_clnt_sock(char *clnt_port);
-void error_handling(char *error_msg);
+void init_sql(MYSQL *sql);
+char* select_query(MYSQL *sql, char *input);
+void insert_query(MYSQL *sql, char *id, char *pw);
 
 #endif

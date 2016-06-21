@@ -62,8 +62,7 @@ Client* connect_client()
 	Client *clnt = (Client*)malloc(sizeof(Client));
 	clnt->sock = clnt_sock;
 	clnt->sock_addr = clnt_addr;
-
-	//printf("sock : %d, addr: %s\n", clnt->sock, inet_ntoa(clnt_addr.sin_addr));
+	clnt->state = 0;
 
 	return clnt;
 }

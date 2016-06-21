@@ -1,0 +1,41 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+BUFSIZE	client.c	25;"	d	file:
+BUFSIZE	server.c	30;"	d	file:
+CLIENTSOCKET_H	clientsocket.h	20;"	d
+Client	serversocket.h	/^}Client;$/;"	t	typeref:struct:_Client
+DB_HOST	mydb.c	25;"	d	file:
+DB_NAME	mydb.c	27;"	d	file:
+DB_PORT	mydb.c	28;"	d	file:
+DB_PW	mydb.c	26;"	d	file:
+MAX	client.c	26;"	d	file:
+MYDB_H	mydb.h	20;"	d
+SERVERIP	clientsocket.c	24;"	d	file:
+SERVERIP	serversocket.c	26;"	d	file:
+SERVERSOCKET_H	serversocket.h	20;"	d
+_Client	serversocket.h	/^typedef struct _Client$/;"	s
+after_login	client.c	/^void after_login(int sock)$/;"	f
+clnt_connection	server.c	/^void* clnt_connection(void *arg)$/;"	f
+clnt_sock	serversocket.c	/^static int serv_sock, clnt_sock;$/;"	v	file:
+connect_client	serversocket.c	/^Client* connect_client()$/;"	f
+draw_thread	server.c	/^void* draw_thread(void *arg)$/;"	f
+error_handling	clientsocket.c	/^void error_handling(char *error_msg)$/;"	f
+error_handling	serversocket.c	/^void error_handling(char *error_msg)$/;"	f
+init_clnt_sock	clientsocket.c	/^int init_clnt_sock(char *clnt_port)$/;"	f
+init_serv_sock	serversocket.c	/^void init_serv_sock(char *serv_port)$/;"	f
+init_sql	mydb.c	/^void init_sql(MYSQL *sql)$/;"	f
+insert_query	mydb.c	/^void insert_query(MYSQL *sql, char *id, char *pw)$/;"	f
+login_menu	client.c	/^void login_menu(int sock)$/;"	f
+main	client.c	/^int main(int argc, char **argv)$/;"	f
+main	server.c	/^int main(int argc, char **argv)$/;"	f
+member_menu	client.c	/^void member_menu(int sock)$/;"	f
+select_menu	client.c	/^void select_menu(int sock)$/;"	f
+select_query	mydb.c	/^char* select_query(MYSQL *sql, char *input)$/;"	f
+serv_sock	serversocket.c	/^static int serv_sock, clnt_sock;$/;"	v	file:
+sock	serversocket.h	/^	int sock;$/;"	m	struct:_Client
+sock_addr	serversocket.h	/^	struct sockaddr_in sock_addr;$/;"	m	struct:_Client	typeref:struct:_Client::sockaddr_in
+state	serversocket.h	/^	double state;$/;"	m	struct:_Client

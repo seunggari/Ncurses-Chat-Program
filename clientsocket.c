@@ -24,7 +24,7 @@
 #define SERVERIP "127.0.0.1"
 
 
-void init_clnt_sock(char *clnt_port)
+int init_clnt_sock(char *clnt_port)
 {
 	int sock;
 	struct sockaddr_in serv_addr;
@@ -43,6 +43,8 @@ void init_clnt_sock(char *clnt_port)
 	if (connect(sock, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) == -1) {
 		error_handling("connect() error");
 	}
+
+	return sock;
 }
 
 void error_handling(char *error_msg)
