@@ -37,14 +37,13 @@ void init_sql(MYSQL *sql)
 	}
 }
 
-char* select_query(MYSQL *sql, char *input)
+char* select_id_query(MYSQL *sql, char *id)
 {
 	char query[100];
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	
-	sprintf(query, "select id from user where id='%s'", input);
-	printf("query : %s\n", query);
+	sprintf(query, "select count(id) from user where id='%s'", id);
 	
 	if (mysql_query(sql, query) != 0) {
 		error_handling("select_query() error");
@@ -52,20 +51,53 @@ char* select_query(MYSQL *sql, char *input)
 
 	res = mysql_store_result(sql);
 	row = mysql_fetch_row(res);
-	
 	mysql_free_result(res);
-	//mysql_close(sql);
 
-	return row[0];
+	if (strcmp(row[0], "1") == 0) {
+		return "right";
+	}
+
+	else {
+		return "false";
+	}
 }
 
-void insert_query(MYSQL *sql, char *id, char *pw)
+char* select_pw_query(MYSQL *sql, char *id, char *pw)
+{
+	char query[100];
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+	
+	sprintf(query, "select pw from user where id='%s'", id);
+	
+	if (mysql_query(sql, query) != 0) {
+		error_handling("select_query() error");
+	}
+
+	res = mysql_store_result(sql);
+	row = mysql_fetch_row(res);
+	mysql_free_result(res);
+
+	if (strcmp(row[0], pw) == 0) {
+		return "right";
+	}
+
+	else {
+		return "false";
+	}
+
+}
+
+char* insert_query(MYSQL *sql, char *id, char *pw)
 {
 	char query[100];
 
 	sprintf(query, "insert into user values ('%s', '%s')", id, pw);
+	printf("query : %s\n", query);
 
 	if (mysql_query(sql, query) != 0) {
-		error_handling("insert_query() error");
+		return "false";
 	}
+
+	return "right";
 }

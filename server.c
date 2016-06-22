@@ -33,10 +33,6 @@
 void* clnt_connection(void *arg);
 void* draw_menu(void *arg);
 
-MYSQL sql;
-MYSQL *res;
-MYSQL_ROW row;
-
 pthread_mutex_t mutx;
 
 int main(int argc, char **argv)
@@ -53,11 +49,6 @@ int main(int argc, char **argv)
 	if (pthread_mutex_init(&mutx, NULL)) {
 		error_handling("mutex init() error");
 	}
-
-	init_sql(&sql);
-
-	printf("before : %s\n", select_query(&sql, "aa"));
-	//insert_query(&sql, "cc", "ccc");
 
 	init_serv_sock(argv[1]);
 	printf("Waiting...\n");
@@ -79,34 +70,34 @@ int main(int argc, char **argv)
 
 void* clnt_connection(void *arg)
 {
+	char login_id[10];
+	char join_id[10], join_pw[10];
 	char msg[BUFSIZE];
 	Client *clnt = (Client*) arg;
+	MYSQL sql;
 
-	//init_sql(&sql);
-	printf("after : %s\n", select_query(&sql, "aa"));
+	init_sql(&sql);
 
 	printf("Connect!!\tIP : %s\n", inet_ntoa(clnt->sock_addr.sin_addr));
 
 	while(1) {
 
 		if (clnt->state == 0) {
+			printf("menu\n");
 			read(clnt->sock, msg, sizeof(msg));
 			clnt->state = atof(msg);
 		}
 
 		if (clnt->state == 1) {
+			printf("id\n");
 			read(clnt->sock, msg, sizeof(msg));
+			strcpy(login_id, msg);
 
-			pthread_mutex_lock(&mutx);
-			printf("after : %s\n", select_query(&sql, "aa"));
-			pthread_mutex_unlock(&mutx);
-
-			//printf("after : %s\n", select_query(&sql, "aa"));
-
-			if (strcmp(msg, "sdf") == 0) {
+			if (strcmp(select_id_query(&sql, msg), "right") == 0) {
 				write(clnt->sock, "ID Right", 10);
 				clnt->state = 1.1;
 			}
+
 			else {
 				write(clnt->sock, "ID Wrong", 10);
 				clnt->state = 1;
@@ -114,12 +105,14 @@ void* clnt_connection(void *arg)
 		}
 
 		if (clnt->state == 1.1) {
+			printf("pw\n");
 			read(clnt->sock, msg, sizeof(msg));
 
-			if (strcmp(msg, "hot111") == 0) {
+			if (strcmp(select_pw_query(&sql, login_id, msg), "right") == 0) {
 				write(clnt->sock, "PW Right", 10);
 				clnt->state = 3;
 			}
+
 			else {
 				write(clnt->sock, "PW Wrong", 10);
 				clnt->state = 1.1;
@@ -127,11 +120,25 @@ void* clnt_connection(void *arg)
 		}
 
 		if (clnt->state == 2) {
+			printf("join\n");
+			read(clnt->sock, msg, sizeof(msg));
+			strcpy(join_id, msg);
 
+			read(clnt->sock, msg, sizeof(msg));
+			strcpy(join_pw, msg);
+
+			if (strcmp(insert_query(&sql, join_id, join_pw), "right") == 0) {
+				write(clnt->sock, "Success", 10);
+				clnt->state = 0;
+			}
+
+			else if (strcmp(insert_query(&sql, join_id, join_pw), "false") == 0){
+				write(clnt->sock, "Fail", 10);
+				clnt->state = 2;
+			}
 		}
-
 	}
-
+	/* while */
 }
 
 void* draw_thread(void *arg)

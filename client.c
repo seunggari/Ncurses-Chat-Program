@@ -43,13 +43,11 @@ int main(int argc, char **argv)
 
 	initscr();
 
-	select_menu(sock);
+	while(1) {
+		select_menu(sock);
+	}
 
-	login_menu(sock);
-
-	member_menu(sock);
-
-	after_login(sock);
+	//after_login(sock);
 
 	endwin();
 
@@ -61,6 +59,7 @@ void select_menu(int sock)
 	char choice[10];
 
 	while(1) {
+		clear();
 		mvprintw(LINES/3,	COLS/3, "Welcome to Chat Program\n");
 		mvprintw(LINES/3+2, COLS/3, "Join First, Before Login\n"); 
 		mvprintw(LINES/3+4, COLS/3, "Please Select the Menu\n");
@@ -72,17 +71,18 @@ void select_menu(int sock)
 		if (strcmp(choice, "1") == 0) {
 			write(sock, choice, sizeof(choice));
 			clear();
+			login_menu(sock);
 			break;
 		}
 		
 		else if (strcmp(choice, "2") == 0) {
 			write(sock, choice, sizeof(choice));
 			clear();
+			member_menu(sock);
 			break;
 		}
 		
 		else {
-			clear();
 			continue;
 		}
 	}
@@ -92,8 +92,10 @@ void login_menu(int sock)
 {
 	char input_id[MAX] = "", input_pw[MAX] = "";
 	char msg[MAX];
+	memset(msg, 0, MAX);
 
 	while(1) {
+		mvprintw(8,  10, "Login!\n");
 		mvprintw(10, 10, "Enter your ID : %s\n", input_id);
 		mvprintw(15, 10, "Enter your PW : %s\n", input_pw);
 		refresh();
@@ -115,6 +117,7 @@ void login_menu(int sock)
 	}
 
 	while(1) {
+		mvprintw(8,  10, "Login!\n");
 		mvprintw(10, 10, "Enter your ID : %s\n", input_id);
 		mvprintw(15, 10, "Enter your PW : %s\n", input_pw);
 		refresh();
@@ -138,7 +141,31 @@ void login_menu(int sock)
 
 void member_menu(int sock)
 {
+	char input_id[MAX] = "", input_pw[MAX] = "";	
+	char msg[MAX];
+	memset(msg, 0, MAX);
 
+	while(1) {
+		mvprintw(8,  10, "Join!\n");
+		mvprintw(10, 10, "Enter your ID : \n");
+		mvprintw(15, 10, "Enter your PW : \n");
+		refresh();
+
+		mvgetstr(10, 26, input_id);
+		write(sock, input_id, sizeof(input_id));
+
+		mvgetstr(15, 26, input_pw);
+		write(sock, input_pw, sizeof(input_pw));
+
+		read(sock, msg, sizeof(msg));
+
+		if (strcmp(msg, "Fail") == 0 ) {
+			mvprintw(11, 10, "Invaild Input\n");
+			continue;
+		}
+
+		break;
+	}
 }
 
 void after_login(int sock)

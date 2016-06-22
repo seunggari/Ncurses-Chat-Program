@@ -20,7 +20,8 @@
 #define MYDB_H
 
 void init_sql(MYSQL *sql);
-char* select_query(MYSQL *sql, char *input);
-void insert_query(MYSQL *sql, char *id, char *pw);
+char* select_id_query(MYSQL *sql, char *pw);
+char* select_pw_query(MYSQL *sql, char *id, char *pw);
+char* insert_query(MYSQL *sql, char *id, char *pw);
 
 #endif

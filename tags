@@ -5,7 +5,7 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 BUFSIZE	client.c	25;"	d	file:
-BUFSIZE	server.c	30;"	d	file:
+BUFSIZE	server.c	31;"	d	file:
 CLIENTSOCKET_H	clientsocket.h	20;"	d
 Client	serversocket.h	/^}Client;$/;"	t	typeref:struct:_Client
 DB_HOST	mydb.c	25;"	d	file:
@@ -33,8 +33,10 @@ login_menu	client.c	/^void login_menu(int sock)$/;"	f
 main	client.c	/^int main(int argc, char **argv)$/;"	f
 main	server.c	/^int main(int argc, char **argv)$/;"	f
 member_menu	client.c	/^void member_menu(int sock)$/;"	f
+mutx	server.c	/^pthread_mutex_t mutx;$/;"	v
+select_id_query	mydb.c	/^char* select_id_query(MYSQL *sql, char *input)$/;"	f
 select_menu	client.c	/^void select_menu(int sock)$/;"	f
-select_query	mydb.c	/^char* select_query(MYSQL *sql, char *input)$/;"	f
+select_pw_query	mydb.c	/^char* select_pw_query(MYSQL *sql, char *id, char *pw)$/;"	f
 serv_sock	serversocket.c	/^static int serv_sock, clnt_sock;$/;"	v	file:
 sock	serversocket.h	/^	int sock;$/;"	m	struct:_Client
 sock_addr	serversocket.h	/^	struct sockaddr_in sock_addr;$/;"	m	struct:_Client	typeref:struct:_Client::sockaddr_in
